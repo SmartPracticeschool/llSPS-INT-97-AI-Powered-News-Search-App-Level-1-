@@ -1,0 +1,386 @@
+[
+    {
+        "id": "944dd743.a80cf8",
+        "type": "ui_form",
+        "z": "dc7343a.953c6c",
+        "name": "",
+        "label": "",
+        "group": "24421f11.53728",
+        "order": 1,
+        "width": "14",
+        "height": "4",
+        "options": [
+            {
+                "label": "Search for News",
+                "value": "Input",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "Input": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "",
+        "x": 70,
+        "y": 40,
+        "wires": [
+            [
+                "40789508.bd0b0c"
+            ]
+        ]
+    },
+    {
+        "id": "40789508.bd0b0c",
+        "type": "function",
+        "z": "dc7343a.953c6c",
+        "name": "Query processing",
+        "func": "msg={\ndiscoveryparams:\n  {\n\"environment_id\":\"system\",\n\"query\":msg.payload.Input\n  }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 190,
+        "y": 100,
+        "wires": [
+            [
+                "28dabeb8.ec4d72"
+            ]
+        ]
+    },
+    {
+        "id": "34a885c2.06b28a",
+        "type": "function",
+        "z": "dc7343a.953c6c",
+        "name": "text",
+        "func": "msg.payload=msg.search_results.results[0].text\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 470,
+        "y": 60,
+        "wires": [
+            [
+                "d8f34989.2a0638"
+            ]
+        ]
+    },
+    {
+        "id": "28dabeb8.ec4d72",
+        "type": "watson-discovery-v1",
+        "z": "dc7343a.953c6c",
+        "name": "news",
+        "environmentname": "",
+        "environmentId": "system",
+        "collectionId": "news-en",
+        "configurationname": "",
+        "configurationId": "",
+        "language_code": "en",
+        "collection_name": "",
+        "count": "1",
+        "passages": true,
+        "nlp_query": true,
+        "query": "",
+        "filter": "",
+        "aggregation": "term(enriched_text.sentiment.document.label,count:10)",
+        "return": "",
+        "description": "",
+        "size": "LT",
+        "discovery-method": "query",
+        "service-endpoint": "https://api.eu-gb.discovery.watson.cloud.ibm.com/instances/aee81c91-74e1-4200-a89a-dbde37ce6e42",
+        "x": 250,
+        "y": 180,
+        "wires": [
+            [
+                "34a885c2.06b28a",
+                "fa40ae82.473ab",
+                "20abc5e0.212e0a",
+                "d10bbbdd.75e778",
+                "a2ee9d6e.7a764",
+                "354be03c.cc761",
+                "bf645e7b.f3041"
+            ]
+        ]
+    },
+    {
+        "id": "d8f34989.2a0638",
+        "type": "ui_text",
+        "z": "dc7343a.953c6c",
+        "group": "24421f11.53728",
+        "order": 5,
+        "width": "14",
+        "height": "2",
+        "name": "",
+        "label": "search result",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 690,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "d10bbbdd.75e778",
+        "type": "function",
+        "z": "dc7343a.953c6c",
+        "name": "url",
+        "func": "msg.payload=msg.search_results.results[0].url\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 470,
+        "y": 180,
+        "wires": [
+            [
+                "1e3fa22e.b842fe"
+            ]
+        ]
+    },
+    {
+        "id": "fa40ae82.473ab",
+        "type": "function",
+        "z": "dc7343a.953c6c",
+        "name": "author",
+        "func": "msg.payload=msg.search_results.results[0].author\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 470,
+        "y": 100,
+        "wires": [
+            [
+                "fa160a9c.2cfbb8"
+            ]
+        ]
+    },
+    {
+        "id": "354be03c.cc761",
+        "type": "function",
+        "z": "dc7343a.953c6c",
+        "name": "main page url",
+        "func": "msg.payload=msg.search_results.results[0].main_image_url\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 500,
+        "y": 140,
+        "wires": [
+            [
+                "a8c9749a.189288"
+            ]
+        ]
+    },
+    {
+        "id": "20abc5e0.212e0a",
+        "type": "function",
+        "z": "dc7343a.953c6c",
+        "name": "score",
+        "func": "msg.payload=msg.search_results.results[0].enriched_text.sentiment.document.score\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 470,
+        "y": 220,
+        "wires": [
+            [
+                "c7864f2a.eaaa8"
+            ]
+        ]
+    },
+    {
+        "id": "a2ee9d6e.7a764",
+        "type": "function",
+        "z": "dc7343a.953c6c",
+        "name": "label",
+        "func": "msg.payload=msg.search_results.results[0].enriched_text.sentiment.document.label\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 470,
+        "y": 260,
+        "wires": [
+            [
+                "aa3a7a51.548d58"
+            ]
+        ]
+    },
+    {
+        "id": "aa3a7a51.548d58",
+        "type": "ui_text",
+        "z": "dc7343a.953c6c",
+        "group": "24421f11.53728",
+        "order": 8,
+        "width": "14",
+        "height": "2",
+        "name": "",
+        "label": "label",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 670,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "1e3fa22e.b842fe",
+        "type": "ui_text",
+        "z": "dc7343a.953c6c",
+        "group": "24421f11.53728",
+        "order": 4,
+        "width": "14",
+        "height": "2",
+        "name": "",
+        "label": "url",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 670,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "fa160a9c.2cfbb8",
+        "type": "ui_text",
+        "z": "dc7343a.953c6c",
+        "group": "24421f11.53728",
+        "order": 2,
+        "width": "14",
+        "height": "2",
+        "name": "",
+        "label": "author",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 670,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "a8c9749a.189288",
+        "type": "ui_text",
+        "z": "dc7343a.953c6c",
+        "group": "24421f11.53728",
+        "order": 3,
+        "width": "14",
+        "height": "2",
+        "name": "",
+        "label": "main page url",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 700,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "c7864f2a.eaaa8",
+        "type": "ui_gauge",
+        "z": "dc7343a.953c6c",
+        "name": "",
+        "group": "24421f11.53728",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Sentiment score",
+        "label": "units",
+        "format": "{{value}}",
+        "min": "-2",
+        "max": "2",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 700,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "8bc41015.36be7",
+        "type": "function",
+        "z": "dc7343a.953c6c",
+        "name": "retrival",
+        "func": "msg.payload=\n[\n    {\n        \"series\":[\"News\"],\n        \"data\":[msg.payload[0],msg.payload[2],msg.payload[1]],\n        \"labels\":[\"Positive\",\"Neutral\",\"Negative\"]\n    }\n]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 630,
+        "y": 300,
+        "wires": [
+            [
+                "e787a9ee.ab5418"
+            ]
+        ]
+    },
+    {
+        "id": "e787a9ee.ab5418",
+        "type": "ui_chart",
+        "z": "dc7343a.953c6c",
+        "name": "",
+        "group": "24421f11.53728",
+        "order": 8,
+        "width": "12",
+        "height": "9",
+        "label": "chart",
+        "chartType": "bar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "outputs": 1,
+        "x": 770,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bf645e7b.f3041",
+        "type": "function",
+        "z": "dc7343a.953c6c",
+        "name": "sentiment",
+        "func": "var val=[msg.search_results.aggregations[0].results[0].matching_results];\nval.push(msg.search_results.aggregations[0].results[1].matching_results);\nval.push(msg.search_results.aggregations[0].results[2].matching_results);\nmsg.payload=val;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 480,
+        "y": 300,
+        "wires": [
+            [
+                "8bc41015.36be7"
+            ]
+        ]
+    },
+    {
+        "id": "24421f11.53728",
+        "type": "ui_group",
+        "z": "",
+        "name": "News seach",
+        "tab": "d2042796.6ee208",
+        "order": 1,
+        "disp": true,
+        "width": "14",
+        "collapse": false
+    },
+    {
+        "id": "d2042796.6ee208",
+        "type": "ui_tab",
+        "z": "",
+        "name": "World Docker",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
