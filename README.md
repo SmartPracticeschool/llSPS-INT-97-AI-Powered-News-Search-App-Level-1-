@@ -17,10 +17,7 @@ This code pattern shows you how to tap into massive data sets to mine insight. Y
 Search: Query for the most relevant new articles about a specific topic or subject. Because the news collection is pre-enriched with natural language processing, you can query not just on keywords or categories but also on concepts, sentiment, and relations to get richer search responses.
 
 Trending topics in the news: Identify popular topics over the past 24 hours. Topics can be general, or specific to an industry or category.
-
 Flow
-architecture
-
 The user interacts with the Watson Discovery News Server via the app UI.
 User input is processed and routed to the Watson Discovery News Server.
 The Watson Discovery News Server sends user requests to the Watson Discovery Service.
