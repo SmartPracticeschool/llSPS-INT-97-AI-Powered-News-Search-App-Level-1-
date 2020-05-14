@@ -24,3 +24,20 @@ The Watson Discovery News Server sends user requests to the Watson Discovery Ser
 The Watson Discovery Service queries the Watson News Collection.
 The Watson Discovery Service sends news articles to the RSS Reader.
 The Watson Discovery Service responds to Slack search requests.
+
+Steps to deploy the flow in node red
+
+1.Clone the repo.
+2.cteate IBM Cloud account.
+3.Create and Deploy the Node Red application.
+4.Create Watson Discovery Service.
+5.Goto Node Red Flow editor.
+   click on menu tab
+   click on import
+   Choose the "flows.json" in the cloned repo.
+   Deploy the flow
+   Goto Node red dashboad
+   There you can access this web application and also can search for the news of your interest.
+        
+        
+                                                 Thank you...!
