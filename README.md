@@ -27,6 +27,7 @@ The Watson Discovery Service responds to Slack search requests.
 
 Steps to deploy the flow in node red
 
+
 1.Clone the repo.
 2.cteate IBM Cloud account.
 3.Create and Deploy the Node Red application.
